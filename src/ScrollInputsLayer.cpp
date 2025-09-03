@@ -29,6 +29,7 @@ bool ScrollInputsLayer::init() {
     m_ticksSinceVolumeModifier = 0;
     m_scrollingDistance = 0.0f;
     m_input = nullptr;
+    m_trigger = nullptr;
 
     setContentSize({0.0f, 0.0f});
     setPosition(0.0f, 0.0f);
@@ -59,23 +60,28 @@ bool ScrollInputsLayer::init() {
 }
 
 void ScrollInputsLayer::update(float dt) {
+    bool shouldDisableMouseFallthrough = false;
+
+    auto mousePos = cocos::getMousePos();
+
     if (m_ticksSinceScroll++ == Settings::scrollSensitivity) {
         m_scrollingDistance = 0;
     } 
 
     auto scene = CCDirector::sharedDirector()->getRunningScene();
     if (Settings::scrollInputEnabled && scene->getChildrenCount() != 0) {
-        m_input = Utils::getTextInputForPos(cocos::getMousePos(), Utils::getFocusedLayer(scene));
-        setMouseEnabled(m_input);
+        m_input = Utils::getTextInputForPos(mousePos, Utils::getFocusedLayer(scene));
+        shouldDisableMouseFallthrough = m_input;
     } else {
         m_input = nullptr;
     }
 
     // ============================================================================================
+    bool volumeDown = Utils::isModifierDown(Settings::volumeModifier);
 
-    if (Settings::volumeScrollEnabled && Utils::isModifierDown(Settings::volumeModifier)) {
+    if (Settings::volumeScrollEnabled && volumeDown) {
         m_ticksSinceVolumeModifier = 0;
-        setMouseEnabled(true);
+        shouldDisableMouseFallthrough = true;
     } else m_ticksSinceVolumeModifier++;
 
     if (m_volumeBackground->isVisible()) {
@@ -94,6 +100,20 @@ void ScrollInputsLayer::update(float dt) {
             );
         }
     }
+
+    // ============================================================================================
+
+    auto* editor = LevelEditorLayer::get();
+    if (Settings::groupScrollEnabled && editor && !volumeDown && Utils::isModifierDown(Settings::groupModifier)) {
+        shouldDisableMouseFallthrough = true;
+        auto obj = editor->objectAtPosition(editor->m_objectLayer->convertToNodeSpace(mousePos));
+        m_trigger = obj && obj->isTrigger() ? static_cast<EffectGameObject*>(obj) : nullptr;
+    }
+    else {
+        m_trigger = nullptr;
+    }
+
+    setMouseEnabled(shouldDisableMouseFallthrough);
 }
 
 void ScrollInputsLayer::scroll(float x, float y) {
@@ -127,7 +147,9 @@ void ScrollInputsLayer::scroll(float x, float y) {
 
     // =========================================================================================================
 
-    if (Settings::volumeScrollEnabled && !textInputChanged && Utils::isModifierDown(Settings::volumeModifier)) {
+    bool volumeDown = Utils::isModifierDown(Settings::volumeModifier);
+
+    if (Settings::volumeScrollEnabled && !textInputChanged && volumeDown) {
         if (!m_volumeBackground->isVisible()) showVolume();
 
         auto engine = FMODAudioEngine::get();
@@ -145,6 +167,16 @@ void ScrollInputsLayer::scroll(float x, float y) {
 
         if (sfx) engine->setEffectsVolume(std::clamp(volume, 0.0f, 100.0f) / 100);
         else engine->setBackgroundMusicVolume(std::clamp(volume, 0.0f, 100.0f) / 100);
+    }
+
+    if (!textInputChanged && !volumeDown && m_trigger && m_trigger->m_objectLabel) {
+        int num = std::strtol(m_trigger->m_objectLabel->getString(), nullptr, 10) 
+                + (Utils::getStep(InputType::Int) * (down ? -1 : 1));
+
+        if (m_trigger->m_objectID == 1817) m_trigger->m_itemID = std::clamp(num, 0, 9999);
+        else m_trigger->setTargetID(std::clamp(num, 0, 9999));
+        
+        m_trigger->m_objectLabel->setString(numToString(num).c_str());
     }
 }
 

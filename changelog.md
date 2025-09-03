@@ -1,3 +1,7 @@
+## v1.1.0
+- **Added** group scroll :3
+- **Added** keybinds in desc
+
 ## v1.0.0
 - initial release :3c
 

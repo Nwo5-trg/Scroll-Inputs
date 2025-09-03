@@ -6,6 +6,7 @@ namespace Settings {
     inline bool preciseLowVolumes;
     inline bool scrollInputEnabled;
     inline bool volumeScrollEnabled;
+    inline bool groupScrollEnabled;
     inline bool trimPointZero;
 
     inline int rounding;
@@ -17,6 +18,7 @@ namespace Settings {
     inline ModifierType bigModifier;
     inline ModifierType volumeModifier;
     inline ModifierType volumeSFXModifier;
+    inline ModifierType groupModifier;
 
     inline float step;
     inline float intStep;

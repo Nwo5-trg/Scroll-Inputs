@@ -7,7 +7,7 @@
 	},
 	"id": "nwo5.scroll_inputs",
 	"name": "Scroll Inputs",
-	"version": "v1.0.0",
+	"version": "v1.1.0",
 	"developers": ["Nwo5", "HJfod"],
 	"tags": ["utility", "enhancement", "universal", "offline"],
 	"description": "2 for 1 hjfod highway robbery",
@@ -173,6 +173,21 @@
 			"default": 50,
 			"min": 20,
 			"max": 300
+		},
+		"group-scroll-title": {
+			"type": "title",
+			"name": "Group Scroll"
+		},
+		"group-scroll-enabled": {
+			"type": "bool",
+			"name": "Enabled",
+			"default": true
+		},
+		"group-modifier": {
+			"type": "string",
+			"name": "Group Modifier",
+			"default": "Shift",
+			"one-of": ["Alt", "Control", "Shift", "Command", "None"]
 		}
 	}
 }

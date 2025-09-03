@@ -9,6 +9,7 @@ private:
     cocos2d::CCLabelBMFont* m_volumeLabel;
     cocos2d::extension::CCScale9Sprite* m_volumeBackground;
     CCTextInputNode* m_input;
+    EffectGameObject* m_trigger;
 
     void update(float dt);
     

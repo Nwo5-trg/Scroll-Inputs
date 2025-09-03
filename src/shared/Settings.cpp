@@ -10,6 +10,7 @@ namespace Settings {
         preciseLowVolumes = mod->getSettingValue<bool>("precise-low-volumes");
         scrollInputEnabled = mod->getSettingValue<bool>("scroll-input-enabled");
         volumeScrollEnabled = mod->getSettingValue<bool>("volume-scroll-enabled");
+        groupScrollEnabled = mod->getSettingValue<bool>("group-scroll-enabled");
         trimPointZero = mod->getSettingValue<bool>("trim-point-zero");
 
         rounding = mod->getSettingValue<int64_t>("rounding");
@@ -21,6 +22,7 @@ namespace Settings {
         bigModifier = stringToModifierType[mod->getSettingValue<std::string>("big-modifier")];
         volumeModifier = stringToModifierType[mod->getSettingValue<std::string>("volume-modifier")];
         volumeSFXModifier = stringToModifierType[mod->getSettingValue<std::string>("volume-sfx-modifier")];
+        groupModifier = stringToModifierType[mod->getSettingValue<std::string>("group-modifier")];
 
         step = mod->getSettingValue<double>("step");
         intStep = mod->getSettingValue<double>("int-step");
