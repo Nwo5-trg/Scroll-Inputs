@@ -1,3 +1,6 @@
+## v1.1.1
+- **Fixed** robtop popups not liking my layer being better than them
+
 ## v1.1.0
 - **Added** group scroll :3
 - **Added** keybinds in desc

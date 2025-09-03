@@ -33,7 +33,6 @@ bool ScrollInputsLayer::init() {
 
     setContentSize({0.0f, 0.0f});
     setPosition(0.0f, 0.0f);
-    setZOrder(99999);
     setID("scroll-detector-9000"_spr);
 
     scheduleUpdate();
