@@ -104,9 +104,9 @@ void ScrollInputsLayer::update(float dt) {
 
     auto* editor = LevelEditorLayer::get();
     if (Settings::groupScrollEnabled && editor && !volumeDown && Utils::isModifierDown(Settings::groupModifier)) {
-        shouldDisableMouseFallthrough = true;
         auto obj = editor->objectAtPosition(editor->m_objectLayer->convertToNodeSpace(mousePos));
         m_trigger = obj && obj->isTrigger() ? static_cast<EffectGameObject*>(obj) : nullptr;
+        if (m_trigger) shouldDisableMouseFallthrough = true;
     }
     else {
         m_trigger = nullptr;

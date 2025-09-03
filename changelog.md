@@ -1,5 +1,6 @@
 ## v1.1.1
 - **Fixed** robtop popups not liking my layer being better than them
+- **Fixed** qol with group scroll mouse fallthrough
 
 ## v1.1.0
 - **Added** group scroll :3
