@@ -1,0 +1,177 @@
+{
+	"geode": "4.7.1",
+	"gd": {
+		"win": "2.2074",
+		"mac": "2.2074"
+	},
+	"id": "nwo5.scroll_inputs",
+	"name": "Scroll Inputs",
+	"version": "v1.0.0",
+	"developers": ["Nwo5", "HJfod"],
+	"tags": ["utility", "enhancement", "universal", "offline"],
+	"description": "2 for 1 hjfod highway robbery",
+	"incompatibilities": {
+		"hjfod.quick-volume-controls": {
+			"version": "1.2.1",
+			"importance": "conflicting",
+			"platforms": ["win"]
+		}
+	},
+	"links": {
+		"source": "https://github.com/Nwo5-trg/Scroll-Inputs",
+		"community": "https://discord.gg/AeFeYWGUxZ"
+	},
+	"settings": {
+		"general-title": {
+			"type": "title",
+			"name": "General"
+		},
+		"scroll-sensitivity": {
+			"type": "int",
+			"name": "Scroll Sensitivity",
+			"description": "lower number == faster u have to scroll (how this actually works is if (x) amounts of ticks without a scroll pass, it resets ur scroll distance",
+			"default": 5,
+			"min": 1,
+			"max": 100
+		},
+		"scroll-distance": {
+			"type": "float",
+			"name": "Scroll Distance",
+			"description": "how far u gotta scroll for the text input to change",
+			"default": 1.5,
+			"min": 0,
+			"max": 100
+		},
+		"reverse-scroll": {
+			"type": "bool",
+			"name": "Reverse Scroll",
+			"default": false
+		},
+		"scroll-input-title": {
+			"type": "title",
+			"name": "Scroll Inputs"
+		},
+		"scroll-input-enabled": {
+			"type": "bool",
+			"name": "Enabled",
+			"default": true
+		},
+		"step": {
+			"type": "float",
+			"name": "Float Step",
+			"description": "anything with a decimal point will get stepped by this",
+			"default": 1,
+			"min": 0,
+			"max": 100
+		},
+		"int-step": {
+			"type": "float",
+			"name": "Int Step",
+			"description": "anything ***without*** a decimal point will get stepped by this",
+			"default": 1,
+			"min": 0,
+			"max": 100
+		},
+		"rounding": {
+			"type": "int",
+			"name": "Rounding",
+			"default": 5,
+			"min": 1,
+			"max": 8
+		},
+		"small-modifier": {
+			"type": "string",
+			"name": "Small Modifier",
+			"default": "Control",
+			"one-of": ["Alt", "Control", "Shift", "Command", "None"]
+		},
+		"big-modifier": {
+			"type": "string",
+			"name": "Big Modifier",
+			"default": "Shift",
+			"one-of": ["Alt", "Control", "Shift", "Command", "None"]
+		},
+		"small-step": {
+			"type": "float",
+			"name": "Small Float Step",
+			"default": 0.1,
+			"min": 0,
+			"max": 100
+		},
+		"small-int-step": {
+			"type": "float",
+			"name": "Small Int Step",
+			"default": 0.1,
+			"min": 0,
+			"max": 100
+		},
+		"big-step": {
+			"type": "float",
+			"name": "Big Float Step",
+			"default": 5,
+			"min": 0,
+			"max": 100
+		},
+		"big-int-step": {
+			"type": "float",
+			"name": "Big Int Step",
+			"default": 5,
+			"min": 0,
+			"max": 100
+		},
+		"trim-point-zero": {
+			"type": "bool",
+			"name": "Trim Trailing Zeros",
+			"description": "trims trailing 0sh",
+			"default": false
+		},
+		"empty-input": {
+			"type": "string",
+			"name": "Empty Input Handling",
+			"description": "what empty inputs would be treated as, none ignores them",
+			"default": "None",
+			"one-of": ["None", "Int", "Float"]
+		},
+		"volume-scroll-title": {
+			"type": "title",
+			"name": "Volume Scroll"
+		},
+		"volume-scroll-enabled": {
+			"type": "bool",
+			"name": "Enabled",
+			"default": true
+		},
+		"volume-step": {
+			"type": "float",
+			"name": "Step",
+			"default": 1,
+			"min": 0,
+			"max": 100
+		},
+		"volume-modifier": {
+			"type": "string",
+			"name": "Modifier",
+			"default": "Alt",
+			"one-of": ["Alt", "Control", "Shift", "Command", "None"]
+		},
+		"volume-sfx-modifier": {
+			"type": "string",
+			"name": "SFX Modifier",
+			"default": "Shift",
+			"one-of": ["Alt", "Control", "Shift", "Command", "None"]
+		},
+		"precise-low-volumes": {
+			"type": "bool",
+			"name": "Precise Low Volumes",
+			"description": "volumes 0-10 will be in 0.1 increments",
+			"default": true
+		},
+		"volume-popup-hide-delay": {
+			"type": "int",
+			"name": "Volume Popup Hide Delay",
+			"default": 50,
+			"min": 20,
+			"max": 300
+		}
+	}
+}
