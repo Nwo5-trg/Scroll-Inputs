@@ -88,13 +88,13 @@ void ScrollInputsLayer::update(float dt) {
 
         if (Utils::isModifierDown(Settings::volumeSFXModifier)) {
             m_volumeLabel->setString(
-                (Utils::formatFloat(FMODAudioEngine::get()->getEffectsVolume() * 100, 2, true)
+                (Utils::formatFloat(FMODAudioEngine::get()->getEffectsVolume() * 100, 1, true)
                 + " SFX").c_str()
             );
         }
         else {
             m_volumeLabel->setString(
-                (Utils::formatFloat(FMODAudioEngine::get()->getBackgroundMusicVolume() * 100, 2, true)
+                (Utils::formatFloat(FMODAudioEngine::get()->getBackgroundMusicVolume() * 100, 1, true)
                 + " Music").c_str()
             );
         }
@@ -105,7 +105,7 @@ void ScrollInputsLayer::update(float dt) {
     auto* editor = LevelEditorLayer::get();
     if (Settings::groupScrollEnabled && editor && !volumeDown && Utils::isModifierDown(Settings::groupModifier)) {
         auto obj = editor->objectAtPosition(editor->m_objectLayer->convertToNodeSpace(mousePos));
-        m_trigger = obj && obj->isTrigger() ? static_cast<EffectGameObject*>(obj) : nullptr;
+        m_trigger = obj && obj->m_isTrigger ? static_cast<EffectGameObject*>(obj) : nullptr;
         if (m_trigger) shouldDisableMouseFallthrough = true;
     }
     else {
@@ -119,7 +119,7 @@ void ScrollInputsLayer::scroll(float x, float y) {
     m_ticksSinceScroll = 0;
 
     float dt = fabsf(x) > fabsf(y) ? x : y;
-    bool down = 0 > dt;
+    bool down = Settings::reverseScroll ? 0 > dt : dt >= 0;
     if ((m_scrollingDistance += fabsf(dt)) < Settings::scrollDistance && m_scrollingDown == down) return;
 
     m_scrollingDown = down;
@@ -168,7 +168,7 @@ void ScrollInputsLayer::scroll(float x, float y) {
         else engine->setBackgroundMusicVolume(std::clamp(volume, 0.0f, 100.0f) / 100);
     }
 
-    if (!textInputChanged && !volumeDown && m_trigger && m_trigger->m_objectLabel) {
+    if (!textInputChanged && !volumeDown && Utils::isModifierDown(Settings::groupModifier) && m_trigger && m_trigger->m_objectLabel) {
         int num = std::strtol(m_trigger->m_objectLabel->getString(), nullptr, 10) 
                 + (Utils::getStep(InputType::Int) * (down ? -1 : 1));
 

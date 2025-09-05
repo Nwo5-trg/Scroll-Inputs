@@ -1,3 +1,8 @@
+## v1.1.2
+- **Fixed** reverse scroll maybe
+- **Fixed** group scroll stuff maybe
+- **Fixed** some rounding with volume
+
 ## v1.1.1
 - **Fixed** robtop popups not liking my layer being better than them
 - **Fixed** qol with group scroll mouse fallthrough
