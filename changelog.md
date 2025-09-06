@@ -2,6 +2,7 @@
 - **Fixed** reverse scroll maybe
 - **Fixed** group scroll stuff maybe
 - **Fixed** some rounding with volume
+- **Fixed** clamping shenanigans
 
 ## v1.1.1
 - **Fixed** robtop popups not liking my layer being better than them

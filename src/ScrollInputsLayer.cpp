@@ -24,7 +24,6 @@ ScrollInputsLayer* ScrollInputsLayer::create() {
 
 bool ScrollInputsLayer::init() {
     if (!CCLayer::init()) return false;
-    m_scrollingDown = false;
     m_ticksSinceScroll = 0;
     m_ticksSinceVolumeModifier = 0;
     m_scrollingDistance = 0.0f;
@@ -120,9 +119,9 @@ void ScrollInputsLayer::scroll(float x, float y) {
 
     float dt = fabsf(x) > fabsf(y) ? x : y;
     bool down = Settings::reverseScroll ? 0 > dt : dt >= 0;
-    if ((m_scrollingDistance += fabsf(dt)) < Settings::scrollDistance && m_scrollingDown == down) return;
 
-    m_scrollingDown = down;
+    if ((m_scrollingDistance += fabsf(dt)) < Settings::scrollDistance) return;
+
     m_scrollingDistance = 0.0f;
 
     bool textInputChanged = false;
@@ -157,23 +156,26 @@ void ScrollInputsLayer::scroll(float x, float y) {
             : engine->getBackgroundMusicVolume()) * 100;
 
         if (Settings::preciseLowVolumes) {
-            volume += volume < 10.00005f 
-                ? (down ? -0.1f : 0.1f) : Settings::volumeStep * (down ? -1 : 1);
+            volume = std::clamp(volume + (volume < 10.00005f 
+                ? (down ? -0.1f : 0.1f) : Settings::volumeStep * (down ? -1 : 1))
+            , 0.0f, 100.0f);
         }
         else {
-            volume += Settings::volumeStep * (down ? -1 : 1);
+            volume = std::clamp(volume + (Settings::volumeStep * (down ? -1 : 1)), 0.0f, 100.0f);
         }
 
-        if (sfx) engine->setEffectsVolume(std::clamp(volume, 0.0f, 100.0f) / 100);
-        else engine->setBackgroundMusicVolume(std::clamp(volume, 0.0f, 100.0f) / 100);
+        if (sfx) engine->setEffectsVolume(volume / 100);
+        else engine->setBackgroundMusicVolume(volume / 100);
     }
 
     if (!textInputChanged && !volumeDown && Utils::isModifierDown(Settings::groupModifier) && m_trigger && m_trigger->m_objectLabel) {
         int num = std::strtol(m_trigger->m_objectLabel->getString(), nullptr, 10) 
                 + (Utils::getStep(InputType::Int) * (down ? -1 : 1));
+        // c++ complaining about me doing clamp inline so
+        num = std::clamp(num, 0, 9999);
 
-        if (m_trigger->m_objectID == 1817) m_trigger->m_itemID = std::clamp(num, 0, 9999);
-        else m_trigger->setTargetID(std::clamp(num, 0, 9999));
+        if (m_trigger->m_objectID == 1817) m_trigger->m_itemID = num;
+        else m_trigger->setTargetID(num);
         
         m_trigger->m_objectLabel->setString(numToString(num).c_str());
     }

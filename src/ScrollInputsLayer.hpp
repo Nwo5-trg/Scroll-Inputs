@@ -2,7 +2,6 @@
 
 class ScrollInputsLayer : public cocos2d::CCLayer {
 private:
-    bool m_scrollingDown;
     unsigned int m_ticksSinceScroll;
     unsigned int m_ticksSinceVolumeModifier;
     float m_scrollingDistance;
